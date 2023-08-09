@@ -1,13 +1,13 @@
-echo ========== Initialisation de l’environnement ==========
+echo \n========== Initialisation de l’environnement ==========\n
 sudo apt update
 sudo apt install apache2 libapache2-mpm-itk mysql-client-core-8.0 mysql-server php8.1-cli php-cli php-common php-curl php-gd php-intl php-mbstring php-opcache php-readline php-soap php-xml php-xmlrpc php-zip php-fpm php-ldap php-solr php-redis php-apcu 
 mkdir websites && cd websites && mkdir data htdocs && cd htdocs
 
-echo ========== Ajout d’un MOODLE ==========
-git clone -b MOODLE_402_STABLE https://github.com/moodle/moodle.git moodleTest
+echo \n========== Ajout d’un MOODLE ==========\n
+git clone -b MOODLE_402_STABLE https://github.com/moodle/moodle.git moodleTest --sparse
 cd moodleTest
 
-echo ========== Configuration de l’hôte virtuel ==========
+echo \n========== Configuration de l’hôte virtuel ==========\n
 echo '<VirtualHost *:80 >
   DocumentRoot /home/ubuntu/websites/htdocs/moodleTest
   ServerName' moodleTest'.local 
@@ -21,10 +21,10 @@ echo '<VirtualHost *:80 >
   </Directory>
 </VirtualHost>' >> /etc/apache2/sites-enabled/dev.conf
 
-echo ========== Configuration du DNS ==========
+echo \n========== Configuration du DNS ==========\n
 echo '127.0.0.1       moodleTest.local moodleTest.behat'
 
-echo ========== Création du fichier config.php ==========
+echo \n========== Création du fichier config.php ==========\n
 echo '<?php  // Moodle configuration file
 
 unset($CFG);
@@ -62,10 +62,10 @@ require_once(__DIR__ . "/lib/setup.php");
 // There is no php closing tag in this file,
 // it is intentional because it prevents trailing whitespace problems!' >> config.php 
 
-echo ========== Réglages des problèmes de max input var en php ==========
+echo \n========== Réglages des problèmes de max input var en php ==========\n
 find /etc -name "php.ini" -exec sed -i 's/;max_input_vars = 1000/max_input_vars = 5000/' {} \;
 
-echo ========== Installation de la BDD ==========
+echo \n========== Installation de la BDD ==========\n
 mysql << EOF
 
 CREATE DATABASE moodleTest;
